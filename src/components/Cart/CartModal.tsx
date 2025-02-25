@@ -11,6 +11,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
+import { Button } from '../ui/button'
 import { useCart } from '@/providers/Cart'
 import { ShoppingCart } from 'lucide-react'
 import Image from 'next/image'
@@ -21,6 +22,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { DeleteItemButton } from './DeleteItemButton'
 import { EditItemQuantityButton } from './EditItemQuantityButton'
 import { OpenCart } from './OpenCart'
+import { BottlesIcon } from '@/graphics/bottles'
 
 export function CartModal() {
   const { cart, cartQuantity, cartTotal } = useCart()
@@ -49,6 +51,8 @@ export function CartModal() {
     // Close the cart modal when the pathname changes.
     setIsOpen(false)
   }, [pathname])
+
+  console.log('CART')
 
   return (
     <Sheet onOpenChange={setIsOpen} open={isOpen}>
@@ -111,8 +115,11 @@ export function CartModal() {
                         <div className="absolute z-40 -mt-2 ml-[55px]">
                           <DeleteItemButton item={item} />
                         </div>
-                        <Link className="z-30 flex flex-row space-x-4" href={item.url}>
-                          <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border border-neutral-300 bg-neutral-300 dark:border-neutral-700 dark:bg-neutral-900 dark:hover:bg-neutral-800">
+                        <div
+                          // onClick={() => onSelectItem(product)}
+                          className="z-30 flex flex-row space-x-4"
+                        >
+                          <div className="relative h-16 w-16 overflow-hidden rounded-md border border-neutral-300 bg-neutral-300 dark:border-neutral-700 dark:bg-neutral-900 dark:hover:bg-neutral-800">
                             {image?.url && (
                               <Image
                                 alt={image?.alt || product?.title || ''}
@@ -124,8 +131,9 @@ export function CartModal() {
                             )}
                           </div>
 
-                          <div className="flex flex-1 flex-col text-base">
+                          <div className="flex flex-1 flex-col justify-between text-base">
                             <span className="leading-tight">{product?.title}</span>
+                            <BottlesIcon />
                             {isVariant && variant ? (
                               <p className="text-sm text-neutral-500 dark:text-neutral-400 capitalize">
                                 {variant.options
@@ -136,7 +144,7 @@ export function CartModal() {
                               </p>
                             ) : null}
                           </div>
-                        </Link>
+                        </div>
                         <div className="flex h-16 flex-col justify-between">
                           {price && (
                             <Price
@@ -145,10 +153,10 @@ export function CartModal() {
                               currencyCode={'usd'}
                             />
                           )}
-                          <div className="ml-auto flex h-9 flex-row items-center rounded-full border border-neutral-200 dark:border-neutral-700">
+                          <div className="ml-auto flex h-7 flex-row items-center rounded-lg overflow-hidden">
                             <EditItemQuantityButton item={item} type="minus" />
-                            <p className="w-6 text-center">
-                              <span className="w-full text-sm">{item.quantity}</span>
+                            <p className="w-8 h-full text-center bg-gray-800">
+                              <span className="w-full text-sm text-white">{item.quantity}</span>
                             </p>
                             <EditItemQuantityButton item={item} type="plus" />
                           </div>
@@ -168,12 +176,11 @@ export function CartModal() {
                       currencyCode={cartTotal.currency}
                     />
                   </div>
-                  <Link
-                    className="block w-full rounded-full bg-blue-600 p-3 text-center text-sm font-medium text-white opacity-90 hover:opacity-100"
-                    href="/checkout"
-                  >
-                    Proceed to Checkout
-                  </Link>
+                  <Button variant="accent" className=" w-full">
+                    <Link className="block" href="/checkout">
+                      Proceed to Checkout
+                    </Link>
+                  </Button>
                 </div>
               </div>
             </div>

@@ -18,7 +18,7 @@ import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import React, { Suspense, useEffect, useState } from 'react'
 
-import { Search, SearchSkeleton } from './search'
+// import { Search, SearchSkeleton } from './search'
 
 interface Props {
   menu: Header['navItems']
@@ -61,11 +61,11 @@ export function MobileMenu({ menu }: Props) {
         </SheetHeader>
 
         <div className="py-4">
-          <div className="mb-4 w-full">
+          {/* <div className="mb-4 w-full">
             <Suspense fallback={<SearchSkeleton />}>
               <Search />
             </Suspense>
-          </div>
+          </div> */}
           {menu?.length ? (
             <ul className="flex w-full flex-col">
               {menu.map((item) => (

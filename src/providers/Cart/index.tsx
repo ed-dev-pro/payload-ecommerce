@@ -32,6 +32,10 @@ export type CartContext = {
   hasInitializedCart: boolean
   incrementQuantity: (id: string) => void
   isProductInCart: (product: Product, variantId?: string) => boolean
+  // isOpen: boolean
+  // openCart: () => void
+  // closeCart: () => void
+  // toggleCart: () => void
 }
 
 const Context = createContext({} as CartContext)
@@ -90,6 +94,8 @@ export const CartProvider = (props) => {
 
   const hasInitialized = useRef(false)
   const [hasInitializedCart, setHasInitialized] = useState(false)
+
+  // const [isOpen, setIsOpen] = useState(false)
 
   // Check local storage for a cart
   // If there is a cart, fetch the products and hydrate the cart
@@ -275,6 +281,10 @@ export const CartProvider = (props) => {
     setQuantity(newQuantity)
   }, [cart, hasInitialized])
 
+  // const openCart = useCallback(() => setIsOpen(true), [])
+  // const closeCart = useCallback(() => setIsOpen(false), [])
+  // const toggleCart = useCallback(() => setIsOpen((prev) => !prev), [])
+
   return (
     <Context.Provider
       value={{
@@ -289,6 +299,10 @@ export const CartProvider = (props) => {
         hasInitializedCart,
         incrementQuantity,
         isProductInCart,
+        // isOpen,
+        // openCart,
+        // closeCart,
+        // toggleCart,
       }}
     >
       {children && children}

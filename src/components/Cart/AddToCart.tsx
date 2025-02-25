@@ -4,25 +4,38 @@ import type { Product } from '@/payload-types'
 
 import { useCart } from '@/providers/Cart'
 import clsx from 'clsx'
-import { PlusIcon } from 'lucide-react'
+import { ShoppingCart } from 'lucide-react'
 import { useSearchParams } from 'next/navigation'
 import React, { useCallback, useMemo } from 'react'
+import { Button, ButtonProps } from '../ui/button'
 
 type ProductVariant = NonNullable<NonNullable<Product['variants']>['variants']>[number]
 
 type Props = {
   product: Product
   variants?: ProductVariant[]
+  btnVariant?: ButtonProps['variant']
+  btnClasses?: string
+  showIcon?: boolean
+  showPrice?: boolean
 }
 
-export function AddToCart({ product, variants }: Props) {
+export function AddToCart({
+  product,
+  variants,
+  btnVariant,
+  btnClasses,
+  showIcon = true,
+  showPrice = true,
+}: Props) {
   const { addItemToCart, cart } = useCart()
   const searchParams = useSearchParams()
 
   const selectedVariantId = searchParams.get('variant')
 
-  const buttonClasses =
-    'relative flex w-full items-center justify-center rounded-full bg-blue-600 p-4 tracking-wide text-white'
+  // const buttonClasses = ''
+  // 'w-fit rounded-xl text-xs font-bold bg-orange-500 hover:bg-orange-600 mt-2 mb-2'
+  // 'relative flex w-full items-center justify-center rounded-full bg-blue-600 p-4 tracking-wide text-white'
   const disabledClasses = 'cursor-not-allowed opacity-60 hover:opacity-60'
 
   const productUrl = useMemo(() => {
@@ -44,7 +57,7 @@ export function AddToCart({ product, variants }: Props) {
 
   if (!true) {
     return (
-      <button aria-disabled className={clsx(buttonClasses, disabledClasses)} type="submit">
+      <button aria-disabled className={clsx(disabledClasses)} type="submit">
         Out Of Stock
       </button>
     )
@@ -63,14 +76,14 @@ export function AddToCart({ product, variants }: Props) {
         unitPrice = variant?.price || 0
       }
 
-      console.log({
-        id: selectedVariantId ?? product.id,
-        product,
-        quantity: 1,
-        url: productUrl,
-        unitPrice,
-        variant: selectedVariantId ?? undefined,
-      })
+      // console.log({
+      //   id: selectedVariantId ?? product.id,
+      //   product,
+      //   quantity: 1,
+      //   url: productUrl,
+      //   unitPrice,
+      //   variant: selectedVariantId ?? undefined,
+      // })
 
       addItemToCart({
         id: selectedVariantId ?? product.id,
@@ -85,18 +98,15 @@ export function AddToCart({ product, variants }: Props) {
   )
 
   return (
-    <button
+    <Button
+      variant={btnVariant}
+      className={btnClasses}
       aria-label="Add to cart"
-      className={clsx(buttonClasses, {
-        'hover:opacity-90': true,
-      })}
       onClick={addToCart}
       type="submit"
     >
-      <div className="absolute left-0 ml-4">
-        <PlusIcon className="h-5" />
-      </div>
-      Add To Cart
-    </button>
+      {showIcon && <ShoppingCart size={16} className="mr-1" />}
+      Add To Cart {showPrice && `| ${product.price}`}
+    </Button>
   )
 }

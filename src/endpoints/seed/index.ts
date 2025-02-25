@@ -2,18 +2,18 @@ import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from '
 
 import { contactForm as contactFormData } from './contact-form'
 import { contact as contactPageData } from './contact-page'
-import { productMousepad as productMousepadData } from './product-mousepad'
-import { productHat as productHatData } from './product-hat'
+import { producers as producersPageData } from './producers-page'
+import { products as productsPageData } from './products-page'
+import { artists as artistsPageData } from './artists-page'
 import { home } from './home'
-import { image1 } from './image-1'
-import { image2 } from './image-2'
-import { imageHero1 } from './image-hero-1'
 
 const collections: CollectionSlug[] = [
   'categories',
   'media',
   'pages',
+  'producers',
   'products',
+  'artists',
   'forms',
   'form-submissions',
   'search',
@@ -79,31 +79,16 @@ export const seed = async ({
 
   payload.logger.info(`— Seeding media...`)
 
-  const [image1Buffer, image2Buffer, image3Buffer, hero1Buffer] = await Promise.all([
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post1.webp',
-    ),
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post2.webp',
-    ),
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-post3.webp',
-    ),
-    fetchFileByURL(
-      'https://raw.githubusercontent.com/payloadcms/payload/refs/heads/main/templates/website/src/endpoints/seed/image-hero1.webp',
-    ),
-  ])
-
   const [
-    demoAuthor,
-    image1Doc,
-    image2Doc,
-    image3Doc,
-    imageHomeDoc,
-    accessoriesCategory,
-    tshirtsCategory,
-    hatsCategory,
-    hoodiesCategory,
+    // demoAuthor,
+    // image1Doc,
+    // image2Doc,
+    // image3Doc,
+    // imageHomeDoc,
+    // accessoriesCategory,
+    // tshirtsCategory,
+    // hatsCategory,
+    // hoodiesCategory,
   ] = await Promise.all([
     payload.create({
       collection: 'users',
@@ -113,140 +98,21 @@ export const seed = async ({
         password: 'password',
       },
     }),
-    payload.create({
-      collection: 'media',
-      data: image1,
-      file: image1Buffer,
-    }),
-    payload.create({
-      collection: 'media',
-      data: image2,
-      file: image2Buffer,
-    }),
-    payload.create({
-      collection: 'media',
-      data: image2,
-      file: image3Buffer,
-    }),
-    payload.create({
-      collection: 'media',
-      data: imageHero1,
-      file: hero1Buffer,
-    }),
 
     payload.create({
       collection: 'categories',
       data: {
-        title: 'Accessories',
-        slug: 'accessories',
+        title: 'Grapes',
+        slug: 'grapes',
         breadcrumbs: [
           {
-            label: 'Accessories',
-            url: '/accessories',
-          },
-        ],
-      },
-    }),
-
-    payload.create({
-      collection: 'categories',
-      data: {
-        title: 'T-Shirts',
-        slug: 'tshirts',
-        breadcrumbs: [
-          {
-            label: 'T-Shirts',
-            url: '/tshirts',
-          },
-        ],
-      },
-    }),
-
-    payload.create({
-      collection: 'categories',
-      data: {
-        title: 'Hats',
-        slug: 'hats',
-        breadcrumbs: [
-          {
-            label: 'Hats',
-            url: '/hats',
-          },
-        ],
-      },
-    }),
-    payload.create({
-      collection: 'categories',
-      data: {
-        title: 'Hoodies',
-        slug: 'hoodies',
-        breadcrumbs: [
-          {
-            label: 'Hoodies',
-            url: '/hoodies',
+            label: 'Grapes',
+            url: '/Grapes',
           },
         ],
       },
     }),
   ])
-
-  let demoAuthorID: number | string = demoAuthor.id
-
-  let image1ID: number | string = image1Doc.id
-  let image2ID: number | string = image2Doc.id
-  let image3ID: number | string = image3Doc.id
-  let imageHomeID: number | string = imageHomeDoc.id
-
-  let accessoriesID: number | string = accessoriesCategory.id
-  let tshirtsID: number | string = tshirtsCategory.id
-  let hatsID: number | string = hatsCategory.id
-  let hoodiesID: number | string = hoodiesCategory.id
-
-  if (payload.db.defaultIDType === 'text') {
-    image1ID = `"${image1Doc.id}"`
-    image2ID = `"${image2Doc.id}"`
-    image3ID = `"${image3Doc.id}"`
-    imageHomeID = `"${imageHomeDoc.id}"`
-    demoAuthorID = `"${demoAuthorID}"`
-
-    accessoriesID = `"${accessoriesCategory.id}"`
-    tshirtsID = `"${tshirtsCategory.id}"`
-    hatsID = `"${hatsCategory.id}"`
-    hoodiesID = `"${hoodiesCategory.id}"`
-  }
-
-  payload.logger.info(`— Seeding products...`)
-
-  const productMousepad = await payload.create({
-    collection: 'products',
-    depth: 0,
-    data: JSON.parse(
-      JSON.stringify(productMousepadData)
-        .replace(/"\{\{IMAGE_1\}\}"/g, String(image1ID))
-        .replace(/"\{\{IMAGE_2\}\}"/g, String(image2ID))
-        .replace(/"\{\{IMAGE_3\}\}"/g, String(image3ID))
-        .replace(/"\{\{CATEGORY_1\}\}"/g, String(accessoriesID)),
-    ),
-  })
-
-  let mousePadID: number | string = productMousepad.id
-
-  if (payload.db.defaultIDType === 'text') {
-    mousePadID = `"${mousePadID}"`
-  }
-
-  const productHat = await payload.create({
-    collection: 'products',
-    depth: 0,
-    data: JSON.parse(
-      JSON.stringify(productHatData)
-        .replace(/"\{\{IMAGE_1\}\}"/g, String(image1ID))
-        .replace(/"\{\{IMAGE_2\}\}"/g, String(image2ID))
-        .replace(/"\{\{IMAGE_3\}\}"/g, String(image3ID))
-        .replace(/"\{\{CATEGORY_1\}\}"/g, String(hatsID))
-        .replace(/"\{\{RELATED_PRODUCT_1\}\}"/g, String(mousePadID)),
-    ),
-  })
 
   payload.logger.info(`— Seeding contact form...`)
 
@@ -264,15 +130,11 @@ export const seed = async ({
 
   payload.logger.info(`— Seeding pages...`)
 
-  const [_, contactPage] = await Promise.all([
+  const [_, contactPage, producersPage, productsPage, artistsPage] = await Promise.all([
     payload.create({
       collection: 'pages',
       depth: 0,
-      data: JSON.parse(
-        JSON.stringify(home)
-          .replace(/"\{\{IMAGE_1\}\}"/g, String(imageHomeID))
-          .replace(/"\{\{IMAGE_2\}\}"/g, String(image2ID)),
-      ),
+      data: JSON.parse(JSON.stringify(home)),
     }),
     payload.create({
       collection: 'pages',
@@ -283,6 +145,21 @@ export const seed = async ({
           String(contactFormID),
         ),
       ),
+    }),
+    payload.create({
+      collection: 'pages',
+      depth: 0,
+      data: JSON.parse(JSON.stringify(producersPageData)),
+    }),
+    payload.create({
+      collection: 'pages',
+      depth: 0,
+      data: JSON.parse(JSON.stringify(productsPageData)),
+    }),
+    payload.create({
+      collection: 'pages',
+      depth: 0,
+      data: JSON.parse(JSON.stringify(artistsPageData)),
     }),
   ])
 
@@ -295,9 +172,32 @@ export const seed = async ({
         navItems: [
           {
             link: {
-              type: 'custom',
-              label: 'Products',
-              url: '/search',
+              type: 'reference',
+              label: 'Local Products',
+              reference: {
+                relationTo: 'pages',
+                value: productsPage.id,
+              },
+            },
+          },
+          {
+            link: {
+              type: 'reference',
+              label: 'Producers',
+              reference: {
+                relationTo: 'pages',
+                value: producersPage.id,
+              },
+            },
+          },
+          {
+            link: {
+              type: 'reference',
+              label: 'Artists',
+              reference: {
+                relationTo: 'pages',
+                value: artistsPage.id,
+              },
             },
           },
           {
@@ -346,24 +246,4 @@ export const seed = async ({
   ])
 
   payload.logger.info('Seeded database successfully!')
-}
-
-async function fetchFileByURL(url: string): Promise<File> {
-  const res = await fetch(url, {
-    credentials: 'include',
-    method: 'GET',
-  })
-
-  if (!res.ok) {
-    throw new Error(`Failed to fetch file from ${url}, status: ${res.status}`)
-  }
-
-  const data = await res.arrayBuffer()
-
-  return {
-    name: url.split('/').pop() || `file-${Date.now()}`,
-    data: Buffer.from(data),
-    mimetype: `image/${url.split('.').pop()}`,
-    size: data.byteLength,
-  }
 }

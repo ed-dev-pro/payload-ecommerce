@@ -1,33 +1,50 @@
 import { cn } from '@/utilities/cn'
 import React from 'react'
 
-import type { Product } from '@/payload-types'
+import type { Artist, Producer, Product } from '@/payload-types'
+import { ProductCard } from '../Card/Product'
+import { ProducerCard } from '../Card/Producer'
+import { ArtistCard } from '../Card/Artist'
 
 /* import { Card } from '../Card' */
 
 export type Props = {
-  posts: Product[]
+  docs: Product[] | Producer[] | Artist[] | null
+  relationTo: 'products' | 'producers' | 'artists' | null
 }
 
 export const CollectionArchive: React.FC<Props> = (props) => {
-  const { posts } = props
+  const { docs, relationTo } = props
+
+  const customClassName =
+    relationTo === 'products'
+      ? 'w-full flex flex-wrap justify-center gap-4 py-4 border rounded-xl'
+      : relationTo === 'producers'
+        ? 'space-y-6'
+        : relationTo === 'artists'
+          ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
+          : ''
 
   return (
     <div className={cn('container')}>
-      <div>
-        <div className="grid grid-cols-4 sm:grid-cols-8 lg:grid-cols-12 gap-y-4 gap-x-4 lg:gap-y-8 lg:gap-x-8 xl:gap-x-8">
-          {posts?.map((result, index) => {
-            if (typeof result === 'object' && result !== null) {
-              return (
-                <div className="col-span-4" key={index}>
-                  {/* <Card className="h-full" doc={result} relationTo="posts" showCategories /> */}
-                </div>
-              )
-            }
+      <div className={customClassName}>
+        {docs?.map((doc) => {
+          if (typeof doc === 'object' && doc !== null) {
+            return (
+              <React.Fragment key={doc.id}>
+                {relationTo === 'products' ? (
+                  <ProductCard product={doc as Product} />
+                ) : relationTo === 'producers' ? (
+                  <ProducerCard producer={doc as Producer} />
+                ) : relationTo === 'artists' ? (
+                  <ArtistCard artist={doc as Artist} />
+                ) : null}
+              </React.Fragment>
+            )
+          }
 
-            return null
-          })}
-        </div>
+          return null
+        })}
       </div>
     </div>
   )

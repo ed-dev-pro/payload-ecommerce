@@ -15,6 +15,7 @@ import { admins } from '@/access/admins'
 import { CallToAction } from '@/blocks/CallToAction/config'
 import { Content } from '@/blocks/Content/config'
 import { MediaBlock } from '@/blocks/MediaBlock/config'
+import { Archive } from '@/blocks/ArchiveBlock/config'
 import { slugField } from '@/fields/slug'
 import { adminsOrPublished } from '@/access/adminsOrPublished'
 
@@ -81,6 +82,7 @@ export const Products: CollectionConfig = {
       type: 'tabs',
       tabs: [
         {
+          label: 'Content',
           fields: [
             {
               name: 'description',
@@ -109,10 +111,9 @@ export const Products: CollectionConfig = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [CallToAction, Content, MediaBlock],
+              blocks: [CallToAction, Content, MediaBlock, Archive],
             },
           ],
-          label: 'Content',
         },
         {
           fields: [
@@ -312,6 +313,20 @@ export const Products: CollectionConfig = {
               admin: {
                 condition: (data) => !data.enableVariants,
               },
+            },
+            {
+              name: 'producers',
+              type: 'relationship',
+              filterOptions: ({ id }) => {
+                return {
+                  id: {
+                    not_in: [id],
+                  },
+                }
+              },
+              hasMany: true,
+              relationTo: 'producers',
+              required: true,
             },
             {
               name: 'relatedProducts',

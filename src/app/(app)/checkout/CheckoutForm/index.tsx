@@ -113,7 +113,7 @@ export const CheckoutForm: React.FC = () => {
         <Button asChild variant="outline">
           <Link href="/cart">Back to cart</Link>
         </Button>
-        <Button disabled={!stripe || isLoading} type="submit" variant="default">
+        <Button disabled={!stripe || isLoading} type="submit" variant="accent">
           {isLoading ? 'Loading...' : 'Pay now'}
         </Button>
       </div>

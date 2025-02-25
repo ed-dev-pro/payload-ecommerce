@@ -1,9 +1,9 @@
-import { AuthProvider } from '@/providers/Auth'
-import { CartProvider } from '@/providers/Cart'
 import React from 'react'
 
 import { HeaderThemeProvider } from './HeaderTheme'
 import { ThemeProvider } from './Theme'
+import { AuthProvider } from '@/providers/Auth'
+import { CartProvider } from '@/providers/Cart'
 
 export const Providers: React.FC<{
   children: React.ReactNode

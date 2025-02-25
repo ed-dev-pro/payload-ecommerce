@@ -11,12 +11,12 @@ export function EditItemQuantityButton({ type, item }: { item: CartItem; type: '
   const { decrementQuantity, incrementQuantity } = useCart()
 
   return (
-    <form>
+    <form className="h-full">
       <button
         aria-disabled={!item.id}
         aria-label={type === 'plus' ? 'Increase item quantity' : 'Reduce item quantity'}
         className={clsx(
-          'ease flex h-full min-w-[36px] max-w-[36px] flex-none items-center justify-center rounded-full px-2 transition-all duration-200 hover:border-neutral-800 hover:opacity-80',
+          'ease bg-gray-800 text-white flex h-full min-w-[36px] max-w-[36px] flex-none items-center justify-center px-2 transition-all duration-200 hover:border-neutral-800 hover:opacity-80',
           {
             'cursor-not-allowed': !item.id,
             'ml-auto': type === 'minus',

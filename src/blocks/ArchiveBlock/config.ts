@@ -54,13 +54,22 @@ export const Archive: Block = {
           label: 'Products',
           value: 'products',
         },
+        {
+          label: 'Producers',
+          value: 'producers',
+        },
+        {
+          label: 'Artists',
+          value: 'artists',
+        },
       ],
     },
     {
       name: 'categories',
       type: 'relationship',
       admin: {
-        condition: (_, siblingData) => siblingData.populateBy === 'collection',
+        condition: (_, siblingData) =>
+          siblingData.populateBy === 'collection' && siblingData.relationTo === 'products',
       },
       hasMany: true,
       label: 'Categories To Show',

@@ -1,4 +1,4 @@
-import type { Product, ArchiveBlock as ArchiveBlockProps } from '@/payload-types'
+import type { Product, Producer, Artist, ArchiveBlock as ArchiveBlockProps } from '@/payload-types'
 
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
@@ -6,17 +6,26 @@ import React from 'react'
 import RichText from '@/components/RichText'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
+import { cn } from '@/utilities/cn'
 
 export const ArchiveBlock: React.FC<
   ArchiveBlockProps & {
     id?: string
   }
 > = async (props) => {
-  const { id, categories, introContent, limit: limitFromProps, populateBy, selectedDocs } = props
+  const {
+    id,
+    categories,
+    introContent,
+    limit: limitFromProps,
+    populateBy,
+    selectedDocs,
+    relationTo = 'products',
+  } = props
 
   const limit = limitFromProps || 3
 
-  let posts: Product[] = []
+  let result: Product[] | Producer[] | Artist[] = []
 
   if (populateBy === 'collection') {
     const payload = await getPayload({ config: configPromise })
@@ -26,8 +35,8 @@ export const ArchiveBlock: React.FC<
       else return category
     })
 
-    const fetchedProducts = await payload.find({
-      collection: 'products',
+    const fetchedData = await payload.find({
+      collection: relationTo as 'products' | 'producers' | 'artists',
       depth: 1,
       limit,
       ...(flattenedCategories && flattenedCategories.length > 0
@@ -41,25 +50,29 @@ export const ArchiveBlock: React.FC<
         : {}),
     })
 
-    posts = fetchedProducts.docs
+    result = fetchedData.docs as Product[] | Producer[] | Artist[]
   } else {
     if (selectedDocs?.length) {
-      const filteredSelectedPosts = selectedDocs.map((post) => {
-        if (typeof post.value === 'object') return post.value
+      const filteredSelectedProducts = selectedDocs.map((product) => {
+        if (typeof product.value === 'object') return product.value
       }) as Product[]
 
-      posts = filteredSelectedPosts
+      result = filteredSelectedProducts
     }
   }
 
   return (
-    <div className="my-16" id={`block-${id}`}>
+    <div className={cn('py-8')} id={`block-${id}`}>
       {introContent && (
-        <div className="container mb-16">
-          <RichText className="ml-0 max-w-[48rem]" data={introContent} enableGutter={false} />
+        <div className="container mb-6">
+          <RichText
+            className="text-center max-w-[48rem]"
+            data={introContent}
+            enableGutter={false}
+          />
         </div>
       )}
-      <CollectionArchive posts={posts} />
+      <CollectionArchive docs={result} relationTo={relationTo} />
     </div>
   )
 }

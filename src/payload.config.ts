@@ -35,6 +35,8 @@ import { Header } from '@/globals/Header'
 import { paymentSucceeded } from '@/stripe/webhooks/paymentSucceeded'
 import { productUpdated } from '@/stripe/webhooks/productUpdated'
 import { plugins } from './plugins'
+import { Producers } from './collections/Producers'
+import { Artists } from './collections/Artists'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -60,7 +62,7 @@ export default buildConfig({
     },
     user: Users.slug,
   },
-  collections: [Users, Products, Pages, Categories, Media, Orders],
+  collections: [Users, Products, Producers, Pages, Categories, Media, Orders, Artists],
   // database-adapter-config-start
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',

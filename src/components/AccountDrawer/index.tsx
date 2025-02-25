@@ -26,8 +26,8 @@ export default function AccountDrawer() {
 
   return (
     <Sheet onOpenChange={setIsOpen} open={isOpen}>
-      <SheetTrigger className="relative hidden md:flex  h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors dark:border-neutral-700 dark:bg-black dark:text-white">
-        <UserIcon className="h-4 transition-all ease-in-out hover:scale-110" />
+      <SheetTrigger className="relative hidden md:flex h-11 w-11 items-center justify-center text-gray-500 transition-colors dark:border-neutral-700 dark:bg-black dark:text-white">
+        <UserIcon className="h-6 transition-all ease-in-out hover:scale-110" />
       </SheetTrigger>
 
       <SheetContent className="flex flex-col">
