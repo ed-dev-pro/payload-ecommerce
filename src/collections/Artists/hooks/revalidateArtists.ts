@@ -9,6 +9,8 @@ export const revalidateArtist: CollectionAfterChangeHook<Artist> = ({
   req: { payload, context },
 }) => {
   if (!context.disableRevalidate) {
+    revalidateTag('archive-block')
+
     if (doc._status === 'published') {
       const path = `/artists/${doc.slug}`
 
@@ -37,6 +39,7 @@ export const revalidateDelete: CollectionAfterDeleteHook<Artist> = ({ doc, req: 
   if (!context.disableRevalidate) {
     const path = `/artists/${doc.slug}`
 
+    revalidateTag('archive-block')
     revalidatePath(path)
     //revalidateTag('artists-sitemap') tbd
   }

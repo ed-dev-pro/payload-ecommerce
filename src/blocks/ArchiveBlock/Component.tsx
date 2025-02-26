@@ -4,6 +4,7 @@ import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
 import RichText from '@/components/RichText'
+import { unstable_cache } from 'next/cache'
 
 import { CollectionArchive } from '@/components/CollectionArchive'
 import { cn } from '@/utilities/cn'
@@ -37,27 +38,36 @@ export const ArchiveBlock: React.FC<
       else return category
     })
 
-    const fetchedData = await payload.find({
-      collection: relationTo as 'products' | 'producers' | 'artists',
-      depth: 1,
-      limit,
-      ...(flattenedCategories && flattenedCategories.length > 0
-        ? {
-          where: {
-            categories: {
-              in: flattenedCategories,
-            },
-          },
-        }
-        : {}),
-    })
+    const fetchProducts = unstable_cache(
+      async () => {
+        return payload.find({
+          collection: relationTo as 'products' | 'producers' | 'artists',
+          depth: 1,
+          limit,
+          ...(flattenedCategories && flattenedCategories.length > 0
+            ? {
+                where: {
+                  categories: {
+                    in: flattenedCategories,
+                  },
+                },
+              }
+            : {}),
+        })
+      },
+      ['archive-block'],
+      {
+        tags: ['archive-block'],
+      },
+    )
 
+    const fetchedData = await fetchProducts()
     result = fetchedData.docs as Product[] | Producer[] | Artist[]
   } else {
     if (selectedDocs?.length) {
       const filteredSelectedProducts = selectedDocs.map((product) => {
         if (typeof product.value === 'object') return product.value
-      }) as Product[]
+      }) as Product[] | Producer[] | Artist[]
 
       result = filteredSelectedProducts
     }
