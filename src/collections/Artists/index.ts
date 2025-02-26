@@ -193,10 +193,10 @@ export const Artists: CollectionConfig = {
   hooks: {
     afterChange: [revalidateArtist],
   },
-  versions: {
-    drafts: {
-      autosave: true,
-    },
-    maxPerDoc: 50,
-  },
+  // versions: {
+  //   drafts: {
+  //     autosave: true,
+  //   },
+  //   maxPerDoc: 50,
+  // },
 }

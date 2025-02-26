@@ -281,7 +281,6 @@ export interface Product {
   skipSync?: boolean | null;
   updatedAt: string;
   createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -846,7 +845,6 @@ export interface Producer {
   skipSync?: boolean | null;
   updatedAt: string;
   createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -889,7 +887,6 @@ export interface Artist {
   skipSync?: boolean | null;
   updatedAt: string;
   createdAt: string;
-  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1166,7 +1163,6 @@ export interface ProductsSelect<T extends boolean = true> {
   skipSync?: T;
   updatedAt?: T;
   createdAt?: T;
-  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1274,7 +1270,6 @@ export interface ProducersSelect<T extends boolean = true> {
   skipSync?: T;
   updatedAt?: T;
   createdAt?: T;
-  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1464,7 +1459,6 @@ export interface ArtistsSelect<T extends boolean = true> {
   skipSync?: T;
   updatedAt?: T;
   createdAt?: T;
-  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
