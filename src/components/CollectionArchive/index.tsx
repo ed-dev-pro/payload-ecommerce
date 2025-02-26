@@ -25,6 +25,8 @@ export const CollectionArchive: React.FC<Props> = (props) => {
           ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
           : ''
 
+  console.log('COLLECTION ARCHIVE', docs)
+
   return (
     <div className={cn('container')}>
       <div className={customClassName}>

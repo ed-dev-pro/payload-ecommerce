@@ -23,6 +23,8 @@ export const ArchiveBlock: React.FC<
     relationTo = 'products',
   } = props
 
+  console.log('ARCHIVE BLOCK PROPS', props)
+
   const limit = limitFromProps || 3
 
   let result: Product[] | Producer[] | Artist[] = []
@@ -41,12 +43,12 @@ export const ArchiveBlock: React.FC<
       limit,
       ...(flattenedCategories && flattenedCategories.length > 0
         ? {
-            where: {
-              categories: {
-                in: flattenedCategories,
-              },
+          where: {
+            categories: {
+              in: flattenedCategories,
             },
-          }
+          },
+        }
         : {}),
     })
 
@@ -60,6 +62,8 @@ export const ArchiveBlock: React.FC<
       result = filteredSelectedProducts
     }
   }
+
+  console.log('ARCHIVE BLOCK RESULT', result)
 
   return (
     <div className={cn('py-8')} id={`block-${id}`}>
