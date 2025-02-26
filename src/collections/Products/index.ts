@@ -399,10 +399,10 @@ export const Products: CollectionConfig = {
     afterChange: [revalidateProduct],
     afterDelete: [deleteProductFromCarts],
   },
-  // versions: {
-  //   drafts: {
-  //     autosave: true,
-  //   },
-  //   maxPerDoc: 50,
-  // },
+  versions: {
+    drafts: {
+      autosave: true,
+    },
+    maxPerDoc: 50,
+  },
 }

@@ -187,10 +187,10 @@ export const Producers: CollectionConfig = {
   hooks: {
     afterChange: [revalidateProducer],
   },
-  // versions: {
-  //   drafts: {
-  //     autosave: true,
-  //   },
-  //   maxPerDoc: 50,
-  // },
+  versions: {
+    drafts: {
+      autosave: true,
+    },
+    maxPerDoc: 50,
+  },
 }
