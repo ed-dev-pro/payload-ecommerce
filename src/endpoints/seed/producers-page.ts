@@ -40,6 +40,36 @@ export const producers: RequiredDataFromCollectionSlug<'pages'> = {
     {
       blockName: 'Archive Block',
       blockType: 'archive',
+      introContent: {
+        root: {
+          type: 'root',
+          children: [
+            {
+              type: 'heading',
+              children: [
+                {
+                  type: 'text',
+                  detail: 0,
+                  format: 0,
+                  mode: 'normal',
+                  style: '',
+                  text: 'Our Affiliate Producers',
+                  version: 1,
+                },
+              ],
+              direction: 'ltr',
+              format: '',
+              indent: 0,
+              tag: 'h3',
+              version: 1,
+            },
+          ],
+          direction: 'ltr',
+          format: '',
+          indent: 0,
+          version: 1,
+        },
+      },
       populateBy: 'collection',
       relationTo: 'producers',
     },
