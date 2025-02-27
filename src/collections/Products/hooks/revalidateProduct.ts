@@ -10,7 +10,7 @@ export const revalidateProduct: CollectionAfterChangeHook<Product> = ({
   req: { payload, context },
 }) => {
   if (!context.disableRevalidate) {
-    revalidateTag('archive-block')
+    revalidateTag('products')
 
     if (doc._status === 'published') {
       const path = `/products/${doc.slug}`
@@ -40,7 +40,7 @@ export const revalidateDelete: CollectionAfterDeleteHook<Product> = ({ doc, req:
   if (!context.disableRevalidate) {
     const path = `/products/${doc.slug}`
 
-    revalidateTag('archive-block')
+    revalidateTag('products')
     revalidatePath(path)
     //revalidateTag('products-sitemap') tbd
   }

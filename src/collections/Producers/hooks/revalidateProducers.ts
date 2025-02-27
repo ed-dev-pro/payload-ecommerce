@@ -9,7 +9,7 @@ export const revalidateProducer: CollectionAfterChangeHook<Producer> = ({
   req: { payload, context },
 }) => {
   if (!context.disableRevalidate) {
-    revalidateTag('archive-block')
+    revalidateTag('producers')
 
     if (doc._status === 'published') {
       const path = `/producers/${doc.slug}`
@@ -42,7 +42,7 @@ export const revalidateDelete: CollectionAfterDeleteHook<Producer> = ({
   if (!context.disableRevalidate) {
     const path = `/producers/${doc.slug}`
 
-    revalidateTag('archive-block')
+    revalidateTag('producers')
     revalidatePath(path)
     //revalidateTag('producers-sitemap') tbd
   }
